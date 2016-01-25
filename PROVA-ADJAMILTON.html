@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Adjamilton Junior">
+
+    <title>2 Avaliação - DWEB</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-default container-fluid">
+        <h1 class="navbar navbar-brand"><a class="brand" href="index.html">Segunda avaliação - Desenvolvimento Web</a></h1>
+    </nav>
+</header>
+
+<!-- HASH -->
+<section id="hash" class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title text-center">Gerador de Senha</div>
+    </div>
+
+    <div class="panel-body">
+        <label>Texto:</label>
+        <input id="texto-hash" type="text">
+
+        <br><br>
+
+        <label>Hash</label>
+        <select id="type-hash">
+            <option value="md5">MD5</option>
+            <option value="md4">MD4</option>
+            <option value="sha1">SHA1</option>
+            <option value="sha256">SHA256</option>
+        </select>
+
+        <br><br>
+
+        <button id="btn-gerar-hash" type="submit" class="btn btn-primary">Gerar</button>
+
+        <img id="loading">
+
+        <br><br>
+
+        <label>Resultado</label><br>
+        <input id="hash-resultado" type="text" name="resulta" placeholder="Resultado...">
+
+        <script>
+
+            document.querySelector('#btn-gerar-hash').onclick = function(){
+
+                $('#loading').attr("src",'http://www.ajaxload.info/images/exemples/21.gif');
+                
+                var texto = document.querySelector('#texto-hash').value;
+                var kind = $('#type-hash').val()
+
+                console.log(texto);
+                console.log(kind);
+                converthash(texto,kind);
+            }
+
+            function converthash(texto,kind) {
+                var url = 'http://10.0.25.110:5000/' + kind + '/' + texto;
+                console.log(url);
+
+                $.get(url, function(h) {
+                    document.getElementById("hash-resultado").value = h['hash'];
+                    $('#loading').attr("src",'');
+                });
+
+            };
+        </script>
+    </div>
+</section>
+
+<section id="convert" class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title text-center">Conversor de Número</div>
+    </div>
+
+    <div class="panel-body">
+        <input id="number" type="text">
+
+        <br><br>
+
+        <button id="btn-hex-ascii" type="submit" class="btn btn-primary">Hex -> Ascii</button>
+        <button id="btn-ascii-hex" type="submit" class="btn btn-primary">Ascii -> Hex</button>
+        <button id="btn-bin-ascii" type="submit" class="btn btn-primary">Bin -> Ascii</button>
+        <button id="btn-ascii-bin" type="submit" class="btn btn-primary">Ascii -> Bin</button>
+
+        <br><br>
+
+        <input id="convert-resultado" type="text" name="resultado" placeholder="Resultado...">
+
+        <script>
+
+            document.querySelector('#btn-hex-ascii').onclick = function(){
+                convert(document.querySelector('#number').value,"hex-ascii");
+            }
+
+            document.querySelector('#btn-ascii-hex').onclick = function(){
+                convert(document.querySelector('#number').value,"ascii-hex");
+            }
+
+            document.querySelector('#btn-bin-ascii').onclick = function(){
+                convert(document.querySelector('#number').value,"bin-ascii");
+            }
+
+            document.querySelector('#btn-ascii-bin').onclick = function(){
+                convert(document.querySelector('#number').value,"ascii-bin");
+            }
+
+            function convert(number,btn) {
+                var result;
+
+                if (btn == 'hex-ascii') {
+                    result = String.fromCharCode(parseInt(number, 16));
+                    document.querySelector('#convert-resultado').value = result;
+                }
+
+                if (btn == 'ascii-hex') {
+                    result = number.charCodeAt(0).toString(16);
+                    document.querySelector('#convert-resultado').value = result;
+
+                }
+
+                if (btn == 'bin-ascii') {
+                    result = result = String.fromCharCode(parseInt(number, 2));
+                    document.querySelector('#convert-resultado').value = result;
+                }
+
+                if (btn == 'ascii-bin') {
+                    result = number.charCodeAt(0).toString(2);
+                    document.querySelector('#convert-resultado').value = result;
+                }
+            };
+        </script>
+    </div>
+</section>
+
+
+</body>
+</html>
